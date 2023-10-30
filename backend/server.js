@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import connectDB from "./config/db.js";
 import goalRoutes from './routes/goalRoutes.js';
-import { errorHandler, checkObjectId } from "./middleware/errorMiddleware.js";
+import { errorHandler } from "./middleware/errorMiddleware.js";
 
 
 connectDB();
@@ -16,7 +16,6 @@ app.use(express.urlencoded({extended: false}))
 
 app.use('/api/goals', goalRoutes)
 
-app.use(checkObjectId)
 app.use(errorHandler)
 
 app.listen(PORT, ()=> {

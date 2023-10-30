@@ -28,6 +28,7 @@ const setGoal = asyncHandler(async(req,res) => {
 const updateGoal = asyncHandler(async(req,res) => {
   const goal = await Goal.findById(req.params.id)
 
+
   if(goal){
     const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {new:true})
   
