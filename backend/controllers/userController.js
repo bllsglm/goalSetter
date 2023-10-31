@@ -50,6 +50,24 @@ const authUser = asyncHandler(async(req,res)=> {
   }
 })
 
+//@desc  Get Users data
+//@route GET /api/users/me
+//@access Public
+const getMe = asyncHandler(async(req,res)=> {
+  const user = await User.findById(req.user._id)
+
+  if(user){
+      res.status(200).json({
+        _id : user._id,
+        name : user.name,
+        email : user.email
+      })
+  }else{
+    res.status(404);
+    throw new Error('Invalid email or password')
+  }
+})
+
 //@desc Update User 
 //@route POST /api/users/profile
 //@access Private
@@ -90,4 +108,4 @@ const logoutUser = asyncHandler(async(req,res)=> {
 })
 
 
-export {registerUser, logoutUser, authUser, updateUser}
+export {registerUser, logoutUser, authUser, updateUser, getMe}
