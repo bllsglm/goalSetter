@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react"
-import { FaUser } from "react-icons/fa"
+import { FaUser } from "react-icons/fa";
+import {useRegisterMutation} from '../slices/userApiSlice'
+import { setCredentials } from "../slices/authSlice";
+import { useDispatch } from "react-redux";
+import {toast} from 'react-toastify';
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
   const [formData,setFormData] = useState({
@@ -11,12 +16,35 @@ const Register = () => {
 
   const {name,email,password,password2} = formData
   const onChange = (e) => {
-    setFormData(e.target.value)
+    setFormData((prevState) =>({...prevState, [e.target.name] : e.target.value}))
   }
 
-  const onSubmit = (e) => {
+  const [register, {isLoading ,error}] = useRegisterMutation()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const onSubmit = async(e) => {
+   try {
     e.preventDefault();
+    if(password === password2){
+      const res = await register({name,email,password}).unwrap();
+      dispatch(setCredentials({...res}));
+      navigate('/')
+      toast.success(`Welcome ${res.name}. Your account is ready. What goal will you set first?`)
+      setFormData({
+        name : '',
+        email: '',
+        password: '',
+        password2 : '',
+      })
+    }else{
+      toast.error('Passwords do not match')
+    }
+   } catch (error) {
+    toast.error(error?.data?.message || error.error)
+   }
   }
+
 
   return <>
     <section className="heading">
@@ -67,6 +95,7 @@ const Register = () => {
           <button type="submit" className="btn btn-block">Submit</button>
         </div>
       </form>
+        Already have an account? <Link to='/login'> <FaUser/><strong>Login</strong></Link>
     </section>
   </>
 }

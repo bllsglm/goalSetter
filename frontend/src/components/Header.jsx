@@ -1,14 +1,37 @@
 import {FaSignInAlt, FaSignOutAlt, FaUser} from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom';
+import { logout } from '../slices/authSlice';
+import { useLogoutMutation } from '../slices/userApiSlice';
+import { toast } from 'react-toastify';
 
 const Header = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const {userInfo} = useSelector((state)=> state.auth)
+  const [logoutApi] = useLogoutMutation()
+  
+  const submitHandler = async() => {
+    try {
+      await logoutApi().unwrap();
+      dispatch(logout());
+      navigate('/login');
+    } catch (error) {
+      toast.error(error?.data?.message || error.error)
+    }
+  }
+
   return (
     <header className='header'>
       <div className="logo">
         <Link to='/'>GoalSetter</Link>
       </div>
       <ul>
-        <li>
+      {!userInfo ? (
+        <>
+         <li>
           <Link to='/login'>
             <FaSignInAlt/> Login
           </Link>
@@ -18,6 +41,14 @@ const Header = () => {
             <FaUser/> Register
           </Link> 
         </li>
+        </>
+        ) : (
+        <li>
+          <button className='btn' onClick={submitHandler}>
+            <FaSignOutAlt/> Logout
+          </button>
+      </li>
+        )}
       </ul>
     </header>
   )

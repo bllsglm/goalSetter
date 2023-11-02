@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react"
-import { FaSignInAlt} from "react-icons/fa"
+import { FaSignInAlt} from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {useLoginMutation} from '../slices/userApiSlice';
+import { useNavigate } from "react-router-dom";
+import { setCredentials } from "../slices/authSlice";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
+
 
 const Login = () => {
   const [formData,setFormData] = useState({
@@ -12,8 +19,28 @@ const Login = () => {
     setFormData((prevState) =>({...prevState, [e.target.name] : e.target.value}))
   }
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login, {isLoading} ] = useLoginMutation()
+  const {userInfo} = useSelector((state)=> state.auth)
+
+
+  useEffect(()=>{
+    if(userInfo){
+    navigate('/')
+    }
+  },[userInfo , navigate])
+
+  const onSubmit = async(e) => {
+    try {
+      e.preventDefault();
+      const res = await login({email,password}).unwrap()
+      dispatch(setCredentials({...res}))
+      navigate('/')
+    } catch (error) {
+      toast.error(error?.data?.message || error.error)
+    }
   }
 
   return <>
@@ -47,9 +74,15 @@ const Login = () => {
         </div>
  
         <div className="form-group">
-          <button type="submit" className="btn btn-block">Submit</button>
+          <button 
+          type="submit" 
+          className="btn btn-block" 
+          disabled={isLoading}>Submit
+          </button>
+          {isLoading && <Loader/>}
         </div>
       </form>
+
     </section>
   </>
 }

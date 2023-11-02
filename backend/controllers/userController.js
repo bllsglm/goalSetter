@@ -52,51 +52,41 @@ const authUser = asyncHandler(async(req,res)=> {
 
 //@desc  Get Users data
 //@route GET /api/users/me
-//@access Public
-const getMe = asyncHandler(async(req,res)=> {
-  const user = await User.findById(req.user._id)
-
-  if(user){
-      res.status(200).json({
-        _id : user._id,
-        name : user.name,
-        email : user.email
-      })
-  }else{
-    res.status(404);
-    throw new Error('Invalid email or password')
-  }
-})
-
-//@desc Update User 
-//@route POST /api/users/profile
 //@access Private
-const updateUser = asyncHandler(async(req,res)=>{
-  
-    const user = await User.findById(req.user._id)
- 
-    console.log("Request body:", req.body);
-    console.log(req.user);
-    if(user){
-      user.name = req.body.name || user.name;
-      user.email = req.body.email || user.email;
-
-      if(req.body.password){
-        user.password = req.body.password
-      }
-
-      const updatedUser = await user.save()
-
-      res.status(200).json({
-        _id : updatedUser._id,
-        email : updatedUser.email,
-        name: updatedUser.name
-      })
-    }else{
-      res.status(400)
-      throw new Error('User could not have been updated')
-    }
+const getMe = asyncHandler(async(req,res)=> {
+  res.status(200).json(req.user)
 })
+
+
+// //@desc Update User 
+// //@route POST /api/users/profile
+// //@access Private
+// const updateUser = asyncHandler(async(req,res)=>{
+  
+//     const user = await User.findById(req.user._id)
+ 
+//     console.log("Request body:", req.body);
+//     console.log(req.user);
+//     if(user){
+//       user.name = req.body.name || user.name;
+//       user.email = req.body.email || user.email;
+
+//       if(req.body.password){
+//         user.password = req.body.password
+//       }
+
+//       const updatedUser = await user.save()
+
+//       res.status(200).json({
+//         _id : updatedUser._id,
+//         email : updatedUser.email,
+//         name: updatedUser.name
+//       })
+//     }else{
+//       res.status(400)
+//       throw new Error('User could not have been updated')
+//     }
+// })
 
 
 //@desc Logout User /Clear cookie
@@ -108,4 +98,4 @@ const logoutUser = asyncHandler(async(req,res)=> {
 })
 
 
-export {registerUser, logoutUser, authUser, updateUser, getMe}
+export {registerUser, logoutUser, authUser, getMe}
