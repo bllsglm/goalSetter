@@ -1,31 +1,52 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import {useSelector, useDispatch } from 'react-redux';
 import {useGetGoalsQuery ,useSetGoalsMutation} from '../slices/goalApiSlice';
 import { toast } from 'react-toastify';
 import Loader from './Loader';
+import { settingGoals, resetGoals } from "../slices/goalSlice";
+import GoalItem from "./GoalItem";
 
 const GoalForm = () => {
   const [text,setText] = useState('');
   const dispatch = useDispatch();
 
-  const {settingGoals} = useSelector((state) => state.goals)
-  const [setGoalApi, {isLoading :loaderSetting ,error}] = useSetGoalsMutation(text)
-  const {data, isLoading : loadingGetGoal ,isError} = useGetGoalsQuery();
+  const { goals } = useSelector((state) => state.goals)
+  const { userInfo } = useSelector((state) => state.auth)
+
+  const [setGoalApi, {isLoading :loaderSetting ,error} ] = useSetGoalsMutation()
+  const {data : goalList, isLoading : loadingGetGoal , refetch} = useGetGoalsQuery();
 
 
   const onSubmit = async(e) => {
     try {
       e.preventDefault()
       console.log(`dsadaad${text}adaasdadsd`);
-      const res = await setGoalApi().unwrap();
+      const res = await setGoalApi({text}).unwrap();
       dispatch(settingGoals({...res}))
-      toast.success('Your goal set')  
+      refetch()
+      toast.success('Goals set, success ahead.')
     } catch (error) {
       toast.error(error?.data?.message || error.error)
     }
   }
 
-  return (
+  useEffect(()=>{
+    if(goalList){
+    refetch()
+    }
+
+    if(!userInfo){
+      resetGoals()
+    }
+
+  },[goalList, refetch, userInfo ])
+
+
+  if(loadingGetGoal){
+   return <Loader/>
+  }
+
+  return (<>
     <section className="form">
       <form onSubmit={onSubmit}>
         <div className="form-group">
@@ -43,7 +64,16 @@ const GoalForm = () => {
         </div>
       </form>
     </section>
-
+    <section className="content">
+      {goalList.length > 0 ? (
+        <div className="goals">
+          {goalList.map((goal)=> (
+            <GoalItem key={goal._id} goal={goal}/>
+          ))}
+        </div>
+      ) : (<h3>You have not set any goals</h3>) }
+    </section>
+    </>
   )
 }
 

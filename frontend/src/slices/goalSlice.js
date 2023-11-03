@@ -1,14 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {goals : localStorage.getItem('goals') ? JSON.parse(localStorage.getItem('goals')) : null}
+const initialState = {goals : []}
 
 const goalSlice = createSlice({
   name : 'goals',
   initialState,
   reducers :{
     settingGoals : (state,action) => {
-      state.goals = action.payload;
-      localStorage.setItem('goals', JSON.stringify(action.payload))
+      state.goals.push(action.payload)
+      localStorage.setItem('goals', JSON.stringify(state.goals))
     },
     resetGoals : (state, action) => {
       state.goals = null;

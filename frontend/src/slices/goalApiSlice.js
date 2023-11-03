@@ -8,12 +8,13 @@ export const goalApiSlice = apiSlice.injectEndpoints({
         url : GOALS_URL,
       }),
       keepUnusedDataFor : 5,
+      providesTags : ['Goal']
     }),
     setGoals : builder.mutation({
-      query : (text) => ({
+      query : (data) => ({
         url : GOALS_URL,
         method : 'POST',
-        body :text,
+        body :data,
       })
     }),
     updateGoal : builder.mutation({
@@ -25,9 +26,11 @@ export const goalApiSlice = apiSlice.injectEndpoints({
     }),
     deleteGoal : builder.mutation({
       query : (goalId) => ({
-        url :`{GOALS_URL}/${goalId}`,
+        url :`${GOALS_URL}/${goalId}`,
         method : 'DELETE',
-      })
+      }),
+      invalidatesTags : ['Goal'],
+      providesTags : ['Goal']
     })
   })
 })
