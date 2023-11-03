@@ -24,6 +24,7 @@ const GoalForm = () => {
       dispatch(settingGoals({...res}))
       refetch()
       toast.success('Goals set, success ahead.')
+      setText('')
     } catch (error) {
       toast.error(error?.data?.message || error.error)
     }
