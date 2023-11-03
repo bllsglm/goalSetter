@@ -6,9 +6,13 @@
   box-sizing: border-box;
 }
 
+
+
 body {
   font-family: 'Poppins', sans-serif;
   height: 100vh;
+  background-color:#955555;
+  
 }
 
 a {
@@ -37,7 +41,7 @@ h3 {
 
 .container {
   width: 100%;
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
@@ -90,14 +94,19 @@ h3 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
+  font-size: 13px;
+  border-color: black;
 }
 
 .goal {
-  background-color: #f4f4f4;
+  background-color:lemonchiffon;
   margin: 10px 0;
   padding: 20px 0 10px;
   position: relative;
+  border-radius: 10px;
+
 }
+
 
 .goal .close {
   position: absolute;
@@ -106,7 +115,15 @@ h3 {
   cursor: pointer;
   border: none;
   background: none;
+  transform: scale(0.98);
 }
+
+.goal .close:hover{
+  color:red;
+  transform: scale(1.3);
+  
+}
+
 
 .form,
 .content {

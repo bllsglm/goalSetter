@@ -1,6 +1,8 @@
 import { toast } from 'react-toastify';
 import {useDeleteGoalMutation } from '../slices/goalApiSlice'
 import Loader from './Loader';
+import { FaTrash } from 'react-icons/fa';
+
 
 const GoalItem = ({goal}) => {
 
@@ -15,14 +17,16 @@ const GoalItem = ({goal}) => {
     {loadingDelete ? <Loader/> : isError ? toast.error(error?.data?.message || error.error) : (
       <>
       <div className="goal">
-      <div>
-        {new Date(goal.createdAt).toLocaleString('tr-TR')}
-      </div>
-      <h2>{goal.text}</h2>
-      <button 
-      className="close"
-      onClick={deleteHandler}
-      >X</button>
+        <div>
+          {new Date(goal.createdAt).toLocaleString('tr-TR')}
+        </div>
+        <h2>{goal.text}</h2>
+        <button 
+        className="close"
+        onClick={deleteHandler}
+        >
+          <FaTrash/>
+        </button >
     </div>
     </>
     )}

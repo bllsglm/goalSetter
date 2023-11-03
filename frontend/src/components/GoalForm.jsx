@@ -10,10 +10,9 @@ const GoalForm = () => {
   const [text,setText] = useState('');
   const dispatch = useDispatch();
 
-  const { goals } = useSelector((state) => state.goals)
   const { userInfo } = useSelector((state) => state.auth)
 
-  const [setGoalApi, {isLoading :loaderSetting ,error} ] = useSetGoalsMutation()
+  const [setGoalApi, {isLoading :loaderSetting } ] = useSetGoalsMutation()
   const {data : goalList, isLoading : loadingGetGoal , refetch} = useGetGoalsQuery();
 
 
