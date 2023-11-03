@@ -65,7 +65,7 @@ const GoalForm = () => {
       </form>
     </section>
     <section className="content">
-      {goalList.length > 0 ? (
+      {goalList?.length > 0 ? (
         <div className="goals">
           {goalList.map((goal)=> (
             <GoalItem key={goal._id} goal={goal}/>
