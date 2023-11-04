@@ -3,7 +3,7 @@
 ![GoalSetter App built with the MERN stack & Redux-RTK.](./frontend/public/images/goalSetterss.png)
 
 This project is part of my MERN Stack portfolio. It is a simple GoalSetter App that uses RTK Query.
-You can see it in action at [https://www...com](https://www...com)
+You can see it in action at [https://goalsetter-bn6g.onrender.com](https://goalsetter-bn6g.onrender.com)
 
 ## Table of Contents
 - [Features](#features)
