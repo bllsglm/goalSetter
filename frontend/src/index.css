@@ -41,11 +41,12 @@ h3 {
 
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
 }
+
 
 .header {
   display: flex;
@@ -92,7 +93,7 @@ h3 {
 
 .goals {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   font-size: 13px;
   border-color: black;

@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../slices/authSlice';
 import { useLogoutMutation } from '../slices/userApiSlice';
 import { toast } from 'react-toastify';
-import logo from '../assets/logo-1.png';
 
 const Header = () => {
 
@@ -26,11 +25,6 @@ const Header = () => {
 
   return (
     <header className='header'>
-       <div>
-      <Link to='/'>
-      <img src={logo} alt="logo" style={{borderRadius :'10px'}} />
-      </Link>
-      </div>
       <div className="logo">
         <Link to='/' style={{fontSize: '30px', fontFamily: 'cursive', fontStyle:'italic' , fontWeight:'bolder'}}>GoalSetter</Link>
       </div>
